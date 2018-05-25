@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+        
+    <group ns="calibration_gazebo">
+        <param name="use_gui" value="True"/>
+        <!-- Run GUI to publish landmark velocity -->
+        <node name="velocity_publisher" pkg="slider_publisher" type="slider_publisher" output="screen" respawn="true">
+            <param name="file" value="$(find slider_publisher)/example/Twist.yaml"/>
+            <remap from="/cmd_vel" to="landmark_vel"/>
+        </node> 
+        
+        <!-- Load landmark description for velocities-->
+        <param name="landmark_file" value="$(find calibration_gazebo)/sdf/landmark.sdf"/>
+        
+        <!-- Bridge from velocity to pose -->
+        <node name="landmark_bridge" pkg="calibration_gazebo" type="move_landmark.py"/>
+        
+  </group>
+          
+</launch>
